@@ -1,0 +1,5 @@
+from base.api import GeneralListAPIView
+from products.api.serializers.product_serializers import ProductSerializer
+
+class ProductListAPIView(GeneralListAPIView):
+    serializer_class = ProductSerializer
