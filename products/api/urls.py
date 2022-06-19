@@ -1,12 +1,12 @@
 from django.urls import path
 from products.api.views.general_views import MeasureUnitListAPIView, CategoryProductListAPIView
-from products.api.views.product_views import ProductListAPIView
+from products.api.views.product_views import  ProductListCreateAPIView, ProductRetrieveUpdateDestroyAPIView
 
 
 urlpatterns = [
     path('measure_unit/', MeasureUnitListAPIView.as_view(), name='measure_unit' ),
     path('category_product/', CategoryProductListAPIView.as_view(), name='category_product'),
-    path('product/', ProductListAPIView.as_view(), name='product')
-    
+    path('product/', ProductListCreateAPIView.as_view(), name='product_create'),
+    path('product/retrieve-update-destroy/<int:pk>/', ProductRetrieveUpdateDestroyAPIView.as_view(), name='product_retrieve_update_destroy'),
 
 ]

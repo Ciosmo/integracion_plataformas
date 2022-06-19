@@ -43,10 +43,10 @@ class CategoryProduct(BaseModel): #categoria de los productos, heredan del model
 
 
 class Product(BaseModel):
-    name = models.CharField(max_length=150, unique=True, blank=False, null=False)
+    name = models.CharField('Nombre del farmaco',max_length=150, unique=True, blank=False, null=False)
     description = models.TextField('Descripcion del producto', blank=False, null=False)
     made_by = models.CharField('Creado por',max_length=50, blank=False)
-    grammage = models.FloatField(blank=False, null=False)
+    grammage = models.FloatField('Gramaje', blank=False, null=False)
     measure_unit = models.ForeignKey(MeasureUnit, verbose_name='Unidad de Medida', on_delete=models.CASCADE, null=True)
     category_product = models.ForeignKey(CategoryProduct, verbose_name="Categoria de producto", on_delete=models.CASCADE, null=True)
     historical = HistoricalRecords()
