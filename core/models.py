@@ -17,6 +17,7 @@ class UserManager(BaseUserManager):
         user.set_password ( password )
         user.save(using=self.db)
         return user
+        
     def create_user(self, username, email, name, last_name,password=None, **extra_fields):
         return self._create_user(username, email, name, last_name, password, False, False, **extra_fields)
     
@@ -37,12 +38,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'Usuario'
         verbose_name_plural = 'Usuarios'
         
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'name','last_name']
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email', 'name','last_name']
         
     def natural_key(self):
         return (self.username)
 
     def __str__(self):
         return f'{self.name} {self.last_name}'
-            

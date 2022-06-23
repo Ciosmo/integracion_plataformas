@@ -38,9 +38,19 @@ THIRD_APPS=[
     
     'rest_framework',
     'simple_history',
+    'drf_yasg',
+    'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
+
+
+SWAGGER_SETTINGS = {
+    'DOC_EXPANSION': 'none'
+}
+
+TOKEN_EXPIRED_AFTER_SECONDS = 360
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,8 +60,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
-
+REST_FRAMEWORK ={ 'DEFAULT_PERMISSION_CLASSES': [
+   'rest_framework.permissions.AllowAny',
+]}
+CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'S_SALUD.urls'
 
 TEMPLATES = [

@@ -8,7 +8,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        exclude = ('state','created_date', 'modified_date', 'deleted_date' )
+        exclude = ('state','created_date', 'modified_date', 'deleted_date' )  #de aca toman los ejemplos de swagger
 
     def to_representation(self, instance):
         return {

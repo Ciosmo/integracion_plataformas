@@ -2,6 +2,12 @@ from rest_framework import serializers
 from core.models import User
 
 
+class UserTokenSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = User
+            fields =('username', 'email', 'name', 'last_name')
+
+
 class UserSerializer(serializers.ModelSerializer): #serializador basado en un modelo
     class Meta: #actualizar y crear
         model = User
