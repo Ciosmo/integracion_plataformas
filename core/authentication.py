@@ -8,6 +8,8 @@ from rest_framework.exceptions import AuthenticationFailed
 
 
 class ExpiringTokenAuthentication(TokenAuthentication):
+
+    expired = False
     """   # expires in :  actual - creada = tiempo que falta
             Se puede optimizar pero para mayor legibilidad lo deje
             de esta manera.
@@ -36,20 +38,27 @@ class ExpiringTokenAuthentication(TokenAuthentication):
     def token_expire_handler(self,token):
         is_expire = self.is_token_expired(token)
         if is_expire:
-            print('TOKEN EXPIRADO')
+            self.expired = True
+            user = token.user
+            token.delete()
+            token = self.get_model().objects.create(user = user)
         
-        return is_expire
+        return is_expire,token
 
     def authenticate_credentials(self, key):
+        message,token,user = None,None,None
         try:
             token = self.get_model().objects.select_related('user').get(key = key)
+            user = token.user
         except self.get_model().DoesNotExist: #Tipo de exepcion
-            raise AuthenticationFailed('Token invalido ')
+            message = 'Token invalido '
+            self.expired = True
+        
+        if token is not None:
 
-        if not token.user.is_active:
-            raise AuthenticationFailed('Usuario no activo o eliminado')
-
-        is_expired = self.token_expire_handler(token)  
-        if is_expired:
-            raise AuthenticationFailed('Token invalido') 
-        return
+            if not token.user.is_active:
+                message = 'Usuario no activo o eliminado'  
+            is_expired = self.token_expire_handler(token)  
+            if is_expired:
+                message = 'Su token ha expirado'
+        return (user,token,message,self.expired)

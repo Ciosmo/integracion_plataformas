@@ -4,14 +4,14 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from base.api import GeneralListAPIView
 from products.api.serializers.product_serializers import ProductSerializer
+from core.authentication_mixins import Authentication
 
 
 
 
-class ProductViewSet(viewsets.ModelViewSet):
+class ProductViewSet(Authentication,viewsets.ModelViewSet):
     serializer_class = ProductSerializer
-
-    
+  
     def get_queryset(self, pk= None):
         if pk is None:
             return self.get_serializer().Meta.model.objects.filter(state=True)
